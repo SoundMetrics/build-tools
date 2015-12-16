@@ -28,7 +28,7 @@ namespace {Namespace}
     public static class BuildInfo
     {
         public const string SemanticVersion = ""{SemanticVersion}"";
-        public const string FullVersion = ""{AssemblyFileVersion}"":
+        public const string FullVersion = ""{AssemblyFileVersion}"";
         public const string BuildNumber = ""{BuildNumber}"";
         public const string BuildDate = ""{BuildDate}"";
         public const string Thumbprint = ""{Thumbprint}"";
