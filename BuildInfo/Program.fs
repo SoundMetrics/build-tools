@@ -42,6 +42,7 @@ module Main =
                 "SemanticVersion",          sprintf "%d.%d.%d" major minor patch
                 "MajorMinorRev",            versionString
                 "BuildNumber",              buildNumber.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                "Thumbprint",               options.Thumbprint
                 "Namespace",                options.Namespace
                 "BuildDate",                DateTime.Now.ToString("d MMM yyyy")
                 "RcFileVersion",            commaVersion

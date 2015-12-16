@@ -31,6 +31,7 @@ namespace {Namespace}
         public const string FullVersion = ""{AssemblyFileVersion}"":
         public const string BuildNumber = ""{BuildNumber}"";
         public const string BuildDate = ""{BuildDate}"";
+        public const string Thumbprint = ""{Thumbprint}"";
     }
 }
 "
@@ -58,6 +59,9 @@ module BuildInfo =
     [<Literal>]
     let BuildDate = ""{BuildDate}""
 
+    [<Literal>]
+    let Thumbprint = ""{Thumbprint}""
+
 [<assembly: AssemblyVersion(""{AssemblyVersion}"")>]
 [<assembly: AssemblyFileVersion(""{AssemblyFileVersion}"")>]
 
@@ -74,5 +78,6 @@ do ()
 #define FILE_VERSION_STRING ""{RcFileVersionString}""
 #define PRODUCT_VERSION {RcProductVersion}
 #define PRODUCT_VERSION_STRING ""{RcProductVersionString}""
-#define BUILD_NUMBER {BuildNumber}
+#define BUILD_NUMBER ""{BuildNumber}""
+#define VCS_THUMBPRINT ""{Thumbprint}""
 "
