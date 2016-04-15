@@ -14,11 +14,16 @@ GOTO NoSign
 
 :Sign
 echo SignBinary.cmd: %CONFIGURATION% - Signing binary %TARGET_PATH%
+if "%SIGNTOOL_DIR%" == "" GOTO SigntoolPath
 "%SIGNTOOL_DIR%\signtool" sign /a /t http://timestamp.verisign.com/scripts/timstamp.dll %TARGET_PATH%
 GOTO DoneSigning
 
 :NoSign
 echo SignBinary.cmd: %CONFIGURATION% - Not signing  %TARGET_PATH%
+GOTO DoneSigning
+
+:SigntoolPath
+echo The environment variable SIGNTOOL_DIR must point to the folder in which signtool.exe resides.
 GOTO DoneSigning
 
 :DoneSigning
