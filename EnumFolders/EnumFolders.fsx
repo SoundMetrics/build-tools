@@ -23,7 +23,6 @@ with
 
     member vi.ToCsvRow () =
         let quoteString s = sprintf "\"%s\"" s
-        let verbatim s = s
 
         let fileVersion =   if vi.FileVersion = Unchecked.defaultof<string> then
                                 ""
