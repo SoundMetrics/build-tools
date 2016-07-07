@@ -1,0 +1,1 @@
+fsi EnumFolders.fsx -- "C:\Program Files (x86)\Sound Metrics\ARIS Update"  "fileversions.csv"
