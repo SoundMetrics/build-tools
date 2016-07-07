@@ -85,4 +85,4 @@ enumFolder output rootFolder
 output.Close()
 
 printfn ""
-printfn "Success. Write file '%s'" outputFile
+printfn "Success. Wrote file '%s'" outputFile
