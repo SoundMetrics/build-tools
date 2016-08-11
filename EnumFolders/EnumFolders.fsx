@@ -4,6 +4,12 @@ open System
 open System.Diagnostics
 open System.IO
 
+let usage = @"fsi EnumFolders.fsx -- <folder-name> <output-csv>"
+
+type Result<'T, 'E> =
+| Okay of 'T
+| Error of 'E
+
 // Get only the args after the first "--"
 let getProgramArgs args =
 
@@ -68,21 +74,26 @@ let rec enumFiles outputFile folder =
 and enumFolder outputFile path =
     enumFiles outputFile path
 
-// Get only the args that apply to the program.
-let args = getProgramArgs fsi.CommandLineArgs
-
 // Get the root folder and output file from arguments.
-let rootFolder, outputFile =
+let parseArgs () =
+    // Get only the args that apply to the program.
+    let args = getProgramArgs fsi.CommandLineArgs
+
     match args with
-    | [||] ->       failwith "No arguments"
-    | [| _ |] ->    failwith "Too few arguments"
-    | [| rootFolder; outputFile |] -> rootFolder, outputFile
-    | _ ->          failwith "Too many arguments"
+    | [| rootFolder; outputFile |] -> Okay (rootFolder, outputFile)
+    | [||] ->       Error "No arguments"
+    | [| _ |] ->    Error "Too few arguments"
+    | _ ->          Error "Too many arguments"
 
-let output = new StreamWriter(outputFile, append = false)
-writeCsvHeader output
-enumFolder output rootFolder
-output.Close()
+match parseArgs() with
+| Error msg ->  eprintfn "ERROR: %s" msg
+                eprintfn "USAGE: %s" usage
+                exit 1
+| Okay (rootFolder, outputFile) ->
+    let output = new StreamWriter(outputFile, append = false)
+    writeCsvHeader output
+    enumFolder output rootFolder
+    output.Close()
 
-printfn ""
-printfn "Success. Wrote file '%s'" outputFile
+    printfn ""
+    printfn "Success. Wrote file '%s'" outputFile
