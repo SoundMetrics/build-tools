@@ -15,7 +15,7 @@ GOTO NoSign
 :Sign
 echo SignBinary.cmd: %CONFIGURATION% - Signing binary %TARGET_PATH%
 if "%SIGNTOOL_DIR%" == "" GOTO SigntoolPath
-"%SIGNTOOL_DIR%\signtool" sign /a /t http://timestamp.verisign.com/scripts/timstamp.dll %TARGET_PATH%
+"%SIGNTOOL_DIR%\signtool" sign /debug /a /t http://timestamp.verisign.com/scripts/timstamp.dll %TARGET_PATH%
 GOTO DoneSigning
 
 :NoSign
