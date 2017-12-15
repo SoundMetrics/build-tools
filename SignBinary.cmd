@@ -6,11 +6,24 @@ REM %1
 REM %2 $(Configuration) - the build configuration
 REM %3 $(TargetPath) - the path of the output file
 
-SET CONFIGURATION=%2
-SET TARGET_PATH=%3
+SET IGNORE1=%1
 
-IF "%2" == "Release" GOTO Sign
-GOTO NoSign
+SHIFT
+SET CONFIGURATION=%1
+ECHO CONFIGURATION=[%CONFIGURATION%]
+
+SHIFT
+SET TARGET_PATH=%1
+ECHO TARGET_PATH=[%TARGET_PATH%]
+
+IF "%CONFIGURATION%" == "Release" GOTO Sign
+
+:AlternateSignedConfig
+SHIFT
+ECHO AlternateSignedConfig=[%1]
+IF "%1" == "" GOTO NoSign
+IF "%1" == "%CONFIGURATION%" GOTO Sign
+GOTO AlternateSignedConfig
 
 :Sign
 echo SignBinary.cmd: %CONFIGURATION% - Signing binary %TARGET_PATH%
