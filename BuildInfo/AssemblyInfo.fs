@@ -8,7 +8,7 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyDescription("Generates version information source code")>]
 [<assembly: AssemblyCompany("Sound Metrics Corporation")>]
 [<assembly: AssemblyProduct("BuildInfo")>]
-[<assembly: AssemblyCopyright("Copyright ©  2015 Sound Metrics")>]
+[<assembly: AssemblyCopyright("Copyright ©  2015-2018 Sound Metrics")>]
 
 [<assembly: ComVisible(false)>]
 

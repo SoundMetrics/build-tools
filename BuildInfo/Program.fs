@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2015 Sound Metrics. All Rights Reserved. 
+﻿// Copyright (c) 2012-2018 Sound Metrics. All Rights Reserved. 
 
 namespace BuildInfo
 
@@ -43,7 +43,7 @@ module Main =
                 "MajorMinorRev",            versionString
                 "BuildNumber",              buildNumber.ToString(System.Globalization.CultureInfo.InvariantCulture)
                 "Thumbprint",               options.Thumbprint
-                "Namespace",                options.Namespace
+                "Namespace",                options.Namespace.Trim()
                 "BuildDate",                DateTime.Now.ToString("d MMM yyyy")
                 "RcFileVersion",            commaVersion
                 "RcFileVersionString",      dottedVersion
@@ -79,46 +79,47 @@ module Main =
             printfn "%s" (Inputs.replaceFields allPairs "BuildInfo: {AssemblyFileVersion}")
 
 
+    open CommandLine
+
     [<EntryPoint>]
     let main argv = 
 
-        let options = Options()
-        if not (CommandLine.Parser.Default.ParseArguments(argv, options)) then
-            Environment.Exit -1
+        let result = Parser.Default.ParseArguments<Options>(argv)
+        match result with
+        | :? Parsed<Options> as options ->
+            let options = options.Value
+            let outputType = options.OutputType
 
-        let outputType = options.OutputType
+            let hasNamespaceOption = not (String.IsNullOrWhiteSpace(options.Namespace))
 
-        let hasNamespaceOption = not (String.IsNullOrWhiteSpace(options.Namespace))
-
-        match outputType with
-        | OutputType.CSharp | OutputType.FSharp ->
-            if not hasNamespaceOption then
-                printfn "-n or --namespace is required for %A" outputType
-                printfn "%s" (options.GetUsage())
-                Environment.Exit -2
+            match outputType with
+            | OutputType.CSharp | OutputType.FSharp ->
+                if not hasNamespaceOption then
+                    printfn "-n or --namespace is required for %A" outputType
+                    Environment.Exit -2
                               
-            options.Namespace <- options.Namespace.Trim()
-
-        | OutputType.ResourceCompiler -> if hasNamespaceOption then
-                                             printfn "-n or --namespace is not allowed for %A" outputType
-                                             printfn "%s" (options.GetUsage())
-                                             Environment.Exit -3
-        | _ -> failwith "unhandled output type"
+            | OutputType.ResourceCompiler -> if hasNamespaceOption then
+                                                 printfn "-n or --namespace is not allowed for %A" outputType
+                                                 Environment.Exit -3
+            | _ -> failwith "unhandled output type"
 
 
-        let buildNumber = Inputs.parseBuildNumber options.BuildNumber
+            let buildNumber = Inputs.parseBuildNumber options.BuildNumber
 
-        // Output BuildInfo parms
-        printfn "BuildInfo.exe"
-        printfn "--output-type:  %A" outputType
-        printfn "--output-path:  %s" options.OutputPath
-        printfn "--version-file: %s" options.VersionFile
-        printfn "--build-number: %d" buildNumber
+            // Output BuildInfo parms
+            printfn "BuildInfo.exe"
+            printfn "--output-type:  %A" outputType
+            printfn "--output-path:  %s" options.OutputPath
+            printfn "--version-file: %s" options.VersionFile
+            printfn "--build-number: %d" buildNumber
 
-        match outputType with
-        | OutputType.CSharp | OutputType.FSharp -> printfn "--namespace:    %s" options.Namespace
-        | _ -> ()
+            match outputType with
+            | OutputType.CSharp | OutputType.FSharp -> printfn "--namespace:    %s" (options.Namespace.Trim())
+            | _ -> ()
 
-        buildTheOutput options
+            buildTheOutput options
+
+        | :? NotParsed<Options> as _errors -> Environment.Exit(-1)
+        | o -> failwithf "Unexpected command line parse result: %s" (o.ToString())
 
         0 // return an integer exit code

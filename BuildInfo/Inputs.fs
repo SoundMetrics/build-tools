@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2015 Sound Metrics. All Rights Reserved. 
+﻿// Copyright (c) 2012-2018 Sound Metrics. All Rights Reserved. 
 
 namespace BuildInfo
 
