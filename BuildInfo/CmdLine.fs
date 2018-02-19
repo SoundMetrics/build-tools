@@ -1,41 +1,26 @@
-﻿// Copyright (c) 2012-2015 Sound Metrics. All Rights Reserved. 
+﻿// Copyright (c) 2012-2018 Sound Metrics. All Rights Reserved. 
 
 namespace BuildInfo
 
 open CommandLine
 open Model
 
-type Options () =
+type Options = {
     [<Option('v', "version-file", Required = true, HelpText = "The major/minor/patch version file")>]
-    member val VersionFile = "" with get, set
+    VersionFile : string
 
     [<Option('t', "output-type", Required = true, HelpText = "The type of output generated")>]
-    member val OutputType = OutputType.CSharp with get, set
+    OutputType : OutputType
 
     [<Option('o', "output-path", Required = true, HelpText = "The path to which the output is written")>]
-    member val OutputPath = "" with get, set
+    OutputPath : string
 
     [<Option('n', "namespace", HelpText = "The namespace to be used for the generated BuildInfo class")>]
-    member val Namespace = "" with get, set
+    Namespace : string
 
     [<Option('b', "build-number", Required = true, HelpText = "The build number to be used in version numbers")>]
-    member val BuildNumber = "" with get, set
+    BuildNumber : string
 
     [<Option('p', "thumbprint", Required = false, HelpText = "The value to be used as a thumbprint")>]
-    member val Thumbprint = "" with get, set
-
-    [<HelpOption>]
-    member __.GetUsage() =
-        sprintf
-            @"
-    USAGE: BuildInfo -v <MajorMinorVersionFile> -t (CSharp|FSharp|ResourceCompiler) -o <output-path> -n <e.g., Aris.Core> -p <thumbprint>
-
-        -n, --namespace         The namespace to be used for the generated BuildInfo class (CSharp only)
-        -t, --output-type       The type of output generated
-        -o, --output-path       The path to which the output is written
-        -v, --version-file      The major/minor version file
-        -b, --build-number      The build number to be used (default is %d)
-        -p, --thumbprint        The value to be used a a thumbprint
-
-"
-            DefaultBuildNumber
+    Thumbprint : string
+}
