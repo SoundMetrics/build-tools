@@ -6,7 +6,8 @@ module Inputs =
 
     open System
     open System.IO
-    open System.Text.RegularExpressions
+
+    exception TooManyPartsInVersionString of string
 
     let parseRevString (revString: string) =
 
@@ -15,8 +16,14 @@ module Inputs =
         | [||] ->                       0, 0, 0
         | [| major |] ->                Int32.Parse(major), 0, 0
         | [| major; minor|] ->          Int32.Parse(major), Int32.Parse(minor), 0
-        | [| major; minor; patch|] ->   Int32.Parse(major), Int32.Parse(minor), Int32.Parse(patch)
-        | _ -> failwithf "Too many parts in version string: '%s'." revString
+        | [| major; minor; patch|] ->
+            // Allow an "-alpha" style suffix on the third term.
+            // At this time, we don't use it in this utility program.
+            let patchNumericLength = patch |> Seq.filter (fun ch -> ch |> Char.IsDigit)
+                                           |> Seq.length
+            let trimmedPatch = patch.Substring(0, patchNumericLength)
+            Int32.Parse(major), Int32.Parse(minor), Int32.Parse(trimmedPatch)
+        | _ -> raise (TooManyPartsInVersionString revString)
 
 
     let getVersion (filePath: string) =
