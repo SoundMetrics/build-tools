@@ -1,5 +1,7 @@
 ECHO SignBinary.cmd
 
+IF NOT "%SIGNBINARY_SKIP%" == "" GOTO SkipSign
+
 SETLOCAL
 
 REM %1
@@ -29,6 +31,10 @@ GOTO AlternateSignedConfig
 echo SignBinary.cmd: %CONFIGURATION% - Signing binary %TARGET_PATH%
 if "%SIGNTOOL_DIR%" == "" GOTO SigntoolPath
 "%SIGNTOOL_DIR%\signtool" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /a %TARGET_PATH%
+GOTO DoneSigning
+
+:SkipSign
+echo SignBinary.cmd: SIGNBINARY_SKIP is defined; signing skipped.
 GOTO DoneSigning
 
 :NoSign
