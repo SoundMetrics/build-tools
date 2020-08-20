@@ -1,4 +1,4 @@
-ECHO SignBinary.cmd
+ECHO Signing (%0)
 
 IF NOT "%SIGNBINARY_SKIP%" == "" GOTO SkipSign
 
