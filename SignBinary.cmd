@@ -30,7 +30,7 @@ GOTO AlternateSignedConfig
 :Sign
 echo SignBinary.cmd: %CONFIGURATION% - Signing binary %TARGET_PATH%
 if "%SIGNTOOL_DIR%" == "" GOTO SigntoolPath
-"%SIGNTOOL_DIR%\signtool" sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /a %TARGET_PATH%
+"%SIGNTOOL_DIR%\signtool" sign /tr http://timestamp.digicert.com /a %TARGET_PATH%
 GOTO DoneSigning
 
 :SkipSign
