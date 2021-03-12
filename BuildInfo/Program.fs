@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2018 Sound Metrics. All Rights Reserved. 
+﻿// Copyright (c) 2012-2018 Sound Metrics. All Rights Reserved.
 
 namespace BuildInfo
 
@@ -43,6 +43,7 @@ module Main =
                 "MajorMinorRev",            versionString
                 "BuildNumber",              buildNumber.ToString(System.Globalization.CultureInfo.InvariantCulture)
                 "Thumbprint",               options.Thumbprint
+                "CommitDescription",        options.CommitDescription
                 "Namespace",                options.Namespace.Trim()
                 "BuildDate",                DateTime.Now.ToString("d MMM yyyy")
                 "RcFileVersion",            commaVersion
@@ -50,7 +51,7 @@ module Main =
                 "RcProductVersion",         commaVersion
                 "RcProductVersionString",   dottedVersion
                 "AssemblyVersion",          dottedVersion
-                "AssemblyFileVersion",      dottedVersion 
+                "AssemblyFileVersion",      dottedVersion
             ]
 
             // Make subsitutions in templates
@@ -82,7 +83,7 @@ module Main =
     open CommandLine
 
     [<EntryPoint>]
-    let main argv = 
+    let main argv =
 
         let result = Parser.Default.ParseArguments<Options>(argv)
         match result with
@@ -97,7 +98,7 @@ module Main =
                 if not hasNamespaceOption then
                     printfn "-n or --namespace is required for %A" outputType
                     Environment.Exit -2
-                              
+
             | OutputType.ResourceCompiler -> if hasNamespaceOption then
                                                  printfn "-n or --namespace is not allowed for %A" outputType
                                                  Environment.Exit -3

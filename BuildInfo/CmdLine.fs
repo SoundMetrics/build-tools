@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2018 Sound Metrics. All Rights Reserved. 
+﻿// Copyright (c) 2012-2018 Sound Metrics. All Rights Reserved.
 
 namespace BuildInfo
 
@@ -23,4 +23,7 @@ type Options = {
 
     [<Option('p', "thumbprint", Required = false, HelpText = "The value to be used as a thumbprint")>]
     Thumbprint : string
+
+    [<Option('c', "commit-description", Required = false, HelpText = "The current branch and commit")>]
+    CommitDescription : string
 }
