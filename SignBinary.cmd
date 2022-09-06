@@ -1,5 +1,9 @@
 ECHO SignBinary.cmd
 
+ECHO Skipping signing (temporary)
+ECHO See https://github.com/SoundMetrics/build-tools/issues/13
+SET SIGNBINARY_SKIP=skip
+
 IF NOT "%SIGNBINARY_SKIP%" == "" GOTO SkipSign
 
 SETLOCAL
